@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -5,12 +6,17 @@ import {
   TouchableWithoutFeedback,
   Text,
 } from "react-native";
-import React from "react";
+import { firebaseAuth } from "../FirebaseConfig";
 
 export default function MenuAndProfile({ title }) {
-  const handleMenuPress = () => {
-    console.log("menu pressed");
-  };
+  const auth = firebaseAuth;
+  const [userName, setUserName] = useState("");
+  const [userIcon, setUserIcon] = useState("");
+
+  useEffect(() => {
+    setUserName(auth.currentUser ? auth.currentUser.displayName : "");
+    setUserIcon(userName ? userName.charAt(0).toUpperCase() : "");
+  }, [userName]);
 
   const handleProfilePress = () => {
     console.log("profile pressed");
@@ -18,13 +24,19 @@ export default function MenuAndProfile({ title }) {
 
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={handleMenuPress}>
-        <Image source={require("../assets/menu.png")} />
-      </TouchableWithoutFeedback>
-      <Text style={styles.text}>{title}</Text>
       <TouchableWithoutFeedback onPress={handleProfilePress}>
-        <Image source={require("../assets/Intersect.png")} />
+        {userIcon ? (
+          <View style={styles.userIcon}>
+            <Text style={styles.userInitial}>{userIcon}</Text>
+          </View>
+        ) : (
+          <Image source={require("../assets/Intersect.png")} />
+        )}
       </TouchableWithoutFeedback>
+      <View style={styles.titleContainer}>
+        <Text style={styles.text}>{title}</Text>
+      </View>
+      <View style={{ width: 50 }}></View>
     </View>
   );
 }
@@ -34,8 +46,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 30,
+    marginTop: 10,
+    paddingHorizontal: 40,
     paddingBottom: 10,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  userIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#D17842",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 10,
+  },
+  userInitial: {
+    fontSize: 18,
+    color: "white",
+    fontWeight: "bold",
   },
   text: {
     color: "white",

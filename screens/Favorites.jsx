@@ -9,8 +9,8 @@ export default function Favorites() {
     <View style={styles.container}>
       <MenuAndProfile title="Favorites" />
       <ScrollView style={{ backgroundColor: "#0d0f14" }}>
-        <FavoriteCard item={data.cards1[0]} likes={1234} />
-        <FavoriteCard item={data.cards1[0]} likes={1234} />
+        <FavoriteCard item={data.cards1[0]} />
+        <FavoriteCard item={data.cards1[0]} />
       </ScrollView>
     </View>
   );
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   container: {
-    paddingTop: 50,
+    paddingTop: 60,
     backgroundColor: "#0d0f14",
     height: "100%",
   },

@@ -1,14 +1,25 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function Card({ imgSrc, title, description, price }) {
+export default function Card({ item }) {
+  const navigation = useNavigation();
+
   const handleCardPress = () => {
-    console.log("card pressed");
+    navigation.navigate("Details", { item });
   };
+
   const addToCart = () => {
     console.log("add to cart pressed");
   };
+  const price =
+    item &&
+    (item.sizes && item.sizes[0]
+      ? item.sizes[0].price
+      : item.weight
+      ? item.weight[0].price
+      : "");
 
   return (
     <TouchableOpacity onPress={handleCardPress}>
@@ -19,9 +30,9 @@ export default function Card({ imgSrc, title, description, price }) {
         style={styles.gradient}
       >
         <View style={styles.container}>
-          <Image style={styles.image} source={{ uri: imgSrc }} />
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.description}>{description}</Text>
+          <Image style={styles.image} source={{ uri: item.image }} />
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.description}>{item.desc}</Text>
           <View style={styles.priceContainer}>
             <View style={styles.dollarContainer}>
               <Text style={styles.dollar}>$</Text>
@@ -42,13 +53,13 @@ export default function Card({ imgSrc, title, description, price }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 15,
+    paddingVertical: 5,
     justifyContent: "space-between",
     alignItems: "flex-start",
     paddingHorizontal: 7,
   },
   image: {
-    width: 130,
+    width: 140,
     height: 130,
     borderRadius: 10,
     alignSelf: "center",

@@ -5,7 +5,9 @@ export default function SizeAndAmount({ size, price, amount, total }) {
   return (
     <View style={styles.container}>
       <View style={styles.sizeAndPrice}>
-        <Text style={styles.size}>{size}</Text>
+        <View style={styles.sizeContainer}>
+          <Text style={styles.size}>{size}</Text>
+        </View>
         <View style={styles.line} />
         <View style={styles.dollarContainer}>
           <Text style={styles.dollar}>$</Text>
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 5,
     paddingRight: 5,
+    width: 45,
   },
   price: {
     color: "white",
@@ -82,5 +85,10 @@ const styles = StyleSheet.create({
     color: "#D17842",
     fontSize: 20,
     paddingTop: 8,
+  },
+  sizeContainer: {
+    width: 45,
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
 });

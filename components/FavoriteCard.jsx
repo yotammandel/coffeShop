@@ -1,9 +1,16 @@
 import { StyleSheet, View, Image, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function FavoriteCard({ item, likes }) {
+export default function FavoriteCard({ item }) {
+  const [favorite, setFavorite] = useState(true);
+  const AddToFavorite = () => {
+    console.log("Favorite pressed");
+    setFavorite(!favorite);
+  };
+
   return (
     <View style={styles.CardContainer}>
       <LinearGradient
@@ -16,7 +23,13 @@ export default function FavoriteCard({ item, likes }) {
           <View style={styles.imgContainer}>
             <Image style={styles.image} source={{ uri: item.image }} />
             <View style={styles.likeIcon}>
-              <AntDesign name="heart" size={16} color="#dc3535" />
+              <TouchableOpacity onPress={AddToFavorite}>
+                {favorite ? (
+                  <AntDesign name="heart" size={16} color="#dc3532" />
+                ) : (
+                  <AntDesign name="heart" size={16} color="#AEAEAEAE" />
+                )}
+              </TouchableOpacity>
             </View>
             <View style={styles.contentContainer}>
               <View style={styles.detailsContainer}>
@@ -31,7 +44,7 @@ export default function FavoriteCard({ item, likes }) {
                 >
                   <AntDesign name="star" size={16} color="#D17842" />
                   <Text style={styles.rating}>4.5</Text>
-                  <Text style={styles.likes}>({likes})</Text>
+                  <Text style={styles.likes}>({item.likes})</Text>
                 </View>
               </View>
               <View>
@@ -65,6 +78,7 @@ export default function FavoriteCard({ item, likes }) {
 const styles = StyleSheet.create({
   CardContainer: {
     alignItems: "center",
+    marginTop: 10,
   },
   gradient: {
     height: 600,

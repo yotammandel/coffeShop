@@ -3,8 +3,18 @@ import React from "react";
 
 import { LinearGradient } from "expo-linear-gradient";
 import SizeAndAmount from "./SizeAndAmount";
-
 export default function HistoryCard({ item }) {
+  if (!item) {
+    return null;
+  }
+
+  const imageUrl = item.image || "";
+
+  const title = item.title || "Default Title";
+  const description = item.desc || "Default Description";
+
+  const sizes = item.sizes ? item.sizes : item.weight;
+
   return (
     <LinearGradient
       colors={["#252A32", "rgba(38, 43, 51, 0)"]}
@@ -14,34 +24,26 @@ export default function HistoryCard({ item }) {
     >
       <View>
         <View style={styles.rowContainer}>
-          <Image style={styles.image} source={{ uri: item.image }} />
+          <Image style={styles.image} source={{ uri: imageUrl }} />
           <View style={styles.textContainer}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.description}>{item.desc}</Text>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.description}>{description}</Text>
           </View>
           <View style={styles.dollarContainer}>
             <Text style={styles.dollar}>$</Text>
             <Text style={styles.price}>37.2</Text>
           </View>
         </View>
-        <SizeAndAmount
-          size={item.sizeS}
-          price={item.price}
-          amount={2}
-          total={8.12}
-        />
-        <SizeAndAmount
-          size={item.sizeM}
-          price={parseFloat(item.price) + 2}
-          amount={3}
-          total={11.1}
-        />
-        <SizeAndAmount
-          size={item.sizeL}
-          price={parseFloat(item.price) + 4}
-          amount={2}
-          total={parseFloat(item.price) * 2}
-        />
+
+        {sizes.map((size, index) => (
+          <SizeAndAmount
+            key={index}
+            size={size.size}
+            price={parseFloat(size.price).toFixed(1)}
+            amount={2}
+            total={size.price * 2}
+          />
+        ))}
       </View>
     </LinearGradient>
   );

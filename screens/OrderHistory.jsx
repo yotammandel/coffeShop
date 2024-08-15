@@ -9,8 +9,9 @@ export default function OrderHistory() {
   return (
     <View style={styles.container}>
       <MenuAndProfile title={"Order History"} />
-      <OrderDate date={"20th March 16.3"} />
+
       <ScrollView>
+        <OrderDate date={"20th March 16.3"} />
         <HistoryCard item={data.cards1[0]} />
         <HistoryCard item={data.cards2[0]} />
         <OrderDate date={"19th March 2023 "} />

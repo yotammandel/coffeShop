@@ -9,10 +9,7 @@ export default function Row({ Cards }) {
         {Cards.map((item, index) => (
           <Card
             key={index}
-            imgSrc={item.image}
-            title={item.title}
-            description={item.desc}
-            price={item.price}
+            item={item} // Taking price from the first size
           />
         ))}
       </View>

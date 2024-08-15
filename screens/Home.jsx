@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import MenuAndProfile from "../components/MenuAndProfile";
 import SearchInput from "../components/SearchInput";
 import { data } from "../data";
 import Row from "../components/Row";
 import FilterList from "../components/FilterList";
+import { firebaseAuth } from "../FirebaseConfig";
 
 export default function Home() {
+  const auth = firebaseAuth;
   const [searchValue, setSearchValue] = useState("");
+  const [name, setName] = useState("");
   const [filteredItems, setFilteredItems] = useState(
     data.cards1.concat(data.cards2)
   );
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      const user = auth.currentUser;
+      setName(user.displayName);
+    }
+  }, [auth.onAuthStateChanged]);
 
   const handleSearch = (text) => {
     setSearchValue(text);
@@ -22,8 +32,11 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <MenuAndProfile title=" " />
-      <ScrollView style={{ backgroundColor: "#0d0f14" }}>
+      <MenuAndProfile title={`hi ${name}`} />
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        style={{ backgroundColor: "#0d0f14" }}
+      >
         <Text style={styles.text}>Find the best coffee for you</Text>
         <SearchInput value={searchValue} onChangeText={handleSearch} />
         <FilterList setFilteredItems={setFilteredItems} />
@@ -45,7 +58,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     width: "70%",
-    padding: 20,
+    paddingLeft: 20,
+    paddingVertical: 10,
   },
   container: {
     paddingTop: 60,
