@@ -2,7 +2,7 @@
 
 # dependencies
 node_modules/
-FirebaseConfig
+FirebaseConfig.js
 
 # Expo
 .expo/
